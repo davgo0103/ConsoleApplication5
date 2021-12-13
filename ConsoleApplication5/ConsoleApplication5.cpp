@@ -3,6 +3,38 @@
 
 #include <iostream>
 using namespace std;
+int get_key(int a, int pass, int m) {
+    a = a / pow(m, pass);
+    a = a % m;
+    return a;
+}
+void Radix_Sort(int a[], int b[], int n, int m, int k) {
+    int i, j, d, pass;
+    
+    for (pass = 0; pass < k; pass++) {
+        int count[10] = { 0 };
+        
+        for (i = 0; i < n; i++)
+        {
+            d = get_key(a[i], pass, m);
+            count[d]++;
+        }
+        for (j = 1; j < m; j++)
+            count[j] += count[j - 1];
+        for (i = n - 1; i >= 0; i--) {
+            d = get_key(a[i], pass, m);
+            b[count[d] - 1] = a[i];
+            count[d]--;
+        }
+        for (i = 0; i < n; i++)
+            a[i] = b[i];
+        cout << "-------------------------\n";
+        for (j = 0; j < m; j++)
+            cout << a[j] << " ";
+        cout << endl;
+    }
+    
+}
 
 void distribute(int a[], int b[], int n, int m) {
     int i, j;
@@ -38,11 +70,13 @@ void distribute(int a[], int b[], int n, int m) {
 
 }
 
-int a[] = { 9,8,2,3,2,4,4,7,8,5,7,8 };
+int a[] = { 985,852,210,320,23,410,420,733,888,552,71,8 };
 int b[12] = { 0 };
 int main()
 {
-    distribute(a, b, 12, 10);
+    Radix_Sort(a,b,12,10,3);
+    //distribute(a, b, 12, 10);
+
     std::cout << "Hello World!\n";
 }
 
